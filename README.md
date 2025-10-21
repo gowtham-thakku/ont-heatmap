@@ -33,7 +33,7 @@ pip install -r requirements.txt
 ## Running the App
 
 ```bash
-streamlit run app.py
+streamlit run ont_heatmap_streamlit_app.py
 ```
 
 The app will open automatically at `http://localhost:8501`
@@ -112,8 +112,6 @@ The app can be deployed to:
 - Hugging Face Spaces
 - Render, Google Cloud Run, AWS/Azure
 
-See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
-
 ### Quick Deploy to Streamlit Cloud
 
 1. Push code to GitHub
@@ -124,11 +122,10 @@ See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
 
 ```
 ont-heatmap/
-├── app.py                      # Main Streamlit application
-├── requirements.txt            # Python dependencies
-├── Make_Nanopore_Heatmap.ipynb # Original Jupyter notebook
-├── README.md                   # This file
-└── DEPLOYMENT_GUIDE.md         # Deployment instructions
+├── ont_heatmap_streamlit_app.py  # Main Streamlit application
+├── requirements.txt              # Python dependencies
+├── README.md                     # This file
+└── LICENSE                       # MIT License
 ```
 
 ## Troubleshooting
