@@ -13,14 +13,24 @@ Interactive web application for generating and visualizing heatmaps from CZID (C
 - Export options: PNG and CSV download
 - Handles empty samples and missing data gracefully
 
-## Installation
+## Usage Options
 
-### Prerequisites
+### Option 1: Web App (Easiest)
+
+Use the hosted version directly in your browser:
+
+**[https://ont-heatmap.streamlit.app/](https://ont-heatmap.streamlit.app/)**
+
+No installation or setup required!
+
+### Option 2: Local Installation
+
+#### Prerequisites
 
 - Python 3.8 or higher
 - pip package manager
 
-### Setup
+#### Setup
 
 Clone the repository and install dependencies:
 
@@ -30,7 +40,7 @@ cd ont-heatmap
 pip install -r requirements.txt
 ```
 
-## Running the App
+#### Running the App
 
 ```bash
 streamlit run ont_heatmap_streamlit_app.py
