@@ -35,7 +35,7 @@ No installation or setup required!
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ont-heatmap.git
+git clone https://github.com/gowtham-thakku/ont-heatmap.git
 cd ont-heatmap
 pip install -r requirements.txt
 ```
@@ -46,7 +46,7 @@ pip install -r requirements.txt
 streamlit run ont_heatmap_streamlit_app.py
 ```
 
-The app will open automatically at `http://localhost:8501`
+The app will open automatically on your browser
 
 ## Usage
 
@@ -63,18 +63,13 @@ Click "Browse files" in the sidebar and select your CZID CSV files.
 
 ### 3. Background Model (Optional)
 
-The background model enables statistical anomaly detection using the standard CZ ID background model approach. For details on how background models work, see the [CZ ID Background Models documentation](https://chanzuckerberg.zendesk.com/hc/en-us/articles/360050883054-Background-Models).
+The background model enables detection of potential contaminants using the standard CZ ID background model approach. For details on how background models work, see the [CZ ID Background Models documentation](https://chanzuckerberg.zendesk.com/hc/en-us/articles/360050883054-Background-Models).
 
 **Setup:**
 1. Select one or more samples to use as background/control
 2. Set z-score threshold (default: 0)
    - Z-score = (sample value - background mean) / background std
    - Higher values = more stringent filtering (e.g., 2 = two standard deviations above background)
-
-**Use cases:**
-- Detect pathogen outbreaks (clinical vs. healthy controls)
-- Identify environmental contamination
-- Find novel taxa not in background samples
 
 ### 4. Configure Parameters
 
@@ -106,75 +101,7 @@ Min NT bPM: 10
 Top N taxa: 5
 Log Transform: Enabled
 ```
-
-## Expected File Format
-
-CZID CSV files with these columns:
-- `tax_id`, `tax_level`, `genus_tax_id`, `name`, `category`
-- `nt_bpm`, `nr_bpm`, `nt_base_count`, `nr_base_count`
-- `nt_count`, `nr_count`, `nt_contigs`, `nr_contigs`
-- `nt_contig_b`, `nr_contig_b`
-
-## Deployment
-
-The app can be deployed to:
-- **Streamlit Community Cloud** (free, recommended)
-- Hugging Face Spaces
-- Render, Google Cloud Run, AWS/Azure
-
-### Quick Deploy to Streamlit Cloud
-
-1. Push code to GitHub
-2. Visit https://share.streamlit.io
-3. Connect repository and deploy
-
-## Project Structure
-
-```
-ont-heatmap/
-├── ont_heatmap_streamlit_app.py  # Main Streamlit application
-├── requirements.txt              # Python dependencies
-├── README.md                     # This file
-└── LICENSE                       # MIT License
-```
-
-## Troubleshooting
-
-**No data after applying filters**
-- Lower threshold values
-- Check selected categories match your data
-- Verify taxonomic level setting
-
-**Heatmap too crowded**
-- Reduce "Top N taxa" value
-- Increase minimum threshold filters
-
-**Upload fails**
-- Ensure CSV format from CZID
-- Verify required columns present
-- Try fewer files at once
-
-## Dependencies
-
-- streamlit >= 1.28.0
-- pandas >= 2.0.0
-- numpy >= 1.24.0
-- plotly >= 5.17.0
-
-## Contributing
-
-Contributions welcome. Please open an issue or submit a pull request.
-
 ## License
 
 MIT License - see LICENSE file for details.
 
-## Acknowledgments
-
-- Built with Streamlit and Plotly
-- Data from CZ ID (Chan Zuckerberg ID)
-- Background model based on CZ ID standard approach
-
-## Contact
-
-For issues or questions, please open an issue on GitHub.
