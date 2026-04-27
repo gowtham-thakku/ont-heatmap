@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
-import plotly.express as px
 from io import BytesIO
 import tempfile
 import os
@@ -24,7 +23,8 @@ def read_czid_report(file_content, filename,
                      min_nt_bpm=1,
                      min_nr_bpm=1,
                      min_nt_contigs=0,
-                     min_nr_contigs=0):
+                     min_nr_contigs=0,
+                     min_nt_count=0):
     """
     Read in the CZ ID Sample Taxon Reports, applying filtering.
     Conservative default filter values are provided, but filters may be adjusted when calling the function.
@@ -33,6 +33,7 @@ def read_czid_report(file_content, filename,
     """
 
     try:
+        file_content.seek(0)
         df = pd.read_csv(file_content)
 
         # Extract sample name first
@@ -45,9 +46,10 @@ def read_czid_report(file_content, filename,
         df.fillna(0, inplace=True)
 
         # Check if required columns exist
-        required_cols = ['tax_level', 'category', 'nt_bpm', 'nr_bpm', 'nt_contig_b', 'nr_contig_b', 'name']
+        required_cols = ['tax_level', 'category', 'nt_bpm', 'nr_bpm', 'nt_contig_b', 'nr_contig_b', 'nt_count', 'name']
         missing_cols = [col for col in required_cols if col not in df.columns]
         if missing_cols:
+            st.warning(f"File '{filename}' is missing columns: {missing_cols}. Skipping.")
             return None, None
 
         # filter on tax_level
@@ -63,6 +65,7 @@ def read_czid_report(file_content, filename,
         df = df[df['nr_bpm'] >= min_nr_bpm]           # min_nr_bpm
         df = df[df['nt_contig_b'] >= min_nt_contigs]  # min_nt_contigs
         df = df[df['nr_contig_b'] >= min_nr_contigs]  # min_nr_contigs
+        df = df[df['nt_count'] >= min_nt_count]        # min_nt_count
 
         # add samplename column to enable concatenating dataframes to long format
         df['samplename'] = samplename
@@ -71,6 +74,7 @@ def read_czid_report(file_content, filename,
         return df, samplename
 
     except Exception as e:
+        st.warning(f"Could not parse '{filename}': {e}")
         return None, None
 
 
@@ -272,6 +276,14 @@ min_nr_bpm = st.sidebar.number_input(
     help="Minimum protein bases per million"
 )
 
+min_nt_count = st.sidebar.number_input(
+    "Min reads (r)",
+    min_value=0,
+    value=0,
+    step=1,
+    help="Minimum nucleotide read count (nt_count)"
+)
+
 min_nt_contigs = st.sidebar.number_input(
     "Min NT Contigs",
     min_value=0,
@@ -367,7 +379,8 @@ if uploaded_files:
                         min_nt_bpm=min_nt_bpm,
                         min_nr_bpm=min_nr_bpm,
                         min_nt_contigs=min_nt_contigs,
-                        min_nr_contigs=min_nr_contigs
+                        min_nr_contigs=min_nr_contigs,
+                        min_nt_count=min_nt_count
                     )
 
                     if df is not None:
