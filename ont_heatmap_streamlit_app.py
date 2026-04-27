@@ -43,7 +43,8 @@ def read_czid_report(file_content, filename,
         if df.empty or len(df) == 0:
             return None, None
 
-        df.fillna(0, inplace=True)
+        numeric_cols = df.select_dtypes(include='number').columns
+        df[numeric_cols] = df[numeric_cols].fillna(0)
 
         # Check if required columns exist
         required_cols = ['tax_level', 'category', 'nt_bpm', 'nr_bpm', 'nt_contig_b', 'nr_contig_b', 'nt_count', 'name']
